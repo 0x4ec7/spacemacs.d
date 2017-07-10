@@ -29,22 +29,29 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     python
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
+     (python :variables
+             python-test-runner 'pytest)
+     sql
+     markdown
+     org
+     emacs-lisp
+     shell-scripts
      osx
      ivy
+     chinese
+     git
+     github
+     search-engine
      (auto-completion :variables
                       auto-completion-enable-sort-by-usage t
-                      auto-completion-enable-snippets-in-popup t)
-     ;; better-defaults
-     emacs-lisp
-     git
-     ;; markdown
-     ;; org
+                      auto-completion-enable-snippets-in-popup t
+                      auto-completion-tab-key-behavior 'cycle
+                      auto-completion-private-snippets-directory "~/.spacemacs.d/snippets/")
      (shell :variables
             shell-default-shell 'term
             shell-default-term-shell "/bin/zsh"
@@ -54,8 +61,6 @@ values."
                      spell-checking-enable-by-default nil)
      (syntax-checking :variables
                       syntax-checking-enable-tooltips nil)
-     ;; version-control
-     chinese
      (ibuffer :variables
               ibuffer-group-buffers-by 'projects)
      )
@@ -316,6 +321,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
 
   ;; no exc-path-from-shell warning
   (setq exec-path-from-shell-check-startup-files nil)
+
   )
 
 (defun dotspacemacs/user-config ()
@@ -330,6 +336,15 @@ you should place your code here."
 
   ;; powerline mode
   (setq powerline-default-separator 'arrow)
+
+  (defun enable-monospaced-font ()
+    (interactive)
+    (if (display-graphic-p)
+        (spacemacs//set-monospaced-font "Hack" "Hiragino Sans GB" 12 14)))
+
+  ;; set monospaced font size
+  (when (spacemacs/system-is-mac)
+    (enable-monospaced-font))
 
   ;; ivy mode
   (with-eval-after-load 'ivy
@@ -347,9 +362,14 @@ you should place your code here."
 
   ;; python mode
   (with-eval-after-load 'python
-    (setq whitespace-line-column 79)
-    (setq whitespace-style '(face lines-tail))
+    (setq whitespace-line-column 79
+          whitespace-style '(face lines-tail))
     (add-hook 'python-mode-hook 'whitespace-mode))
+
+  ;; add baidu to search-engine-alist
+  (push '(baidu :name "Baidu"
+                :url "https://www.baidu.com/s?wd=%s")
+        search-engine-alist)
 
   )
 
@@ -363,7 +383,7 @@ you should place your code here."
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (erc-yt erc-view-log erc-terminal-notifier erc-social-graph erc-image erc-hl-nicks ibuffer-projectile xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help anaconda-mode pythonic pangu-spacing find-by-pinyin-dired chinese-pyim chinese-pyim-basedict ace-pinyin pinyinlib auto-yasnippet yasnippet ac-ispell auto-complete flyspell-correct-ivy flyspell-correct flycheck-pos-tip pos-tip flycheck auto-dictionary wgrep smex ivy-hydra counsel-projectile counsel swiper ivy reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl yapfify smeargle pyvenv pytest pyenv-mode py-isort pip-requirements orgit magit-gitflow live-py-mode hy-mode helm-pydoc helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy evil-magit magit magit-popup git-commit with-editor cython-mode company-statistics company-anaconda company ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))))
+    (web-mode web-beautify wakatime-mode tagedit sql-indent slim-mode scss-mode sass-mode pug-mode pony-mode org-projectile org-present org-pomodoro alert log4e gntp org-download mmm-mode markdown-toc markdown-mode magit-gh-pulls livid-mode less-css-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js-doc insert-shebang htmlize haml-mode gnuplot github-search github-clone github-browse-file gist gh marshal logito pcache ht gh-md fish-mode engine-mode emmet-mode ein skewer-mode deferred websocket js2-mode simple-httpd company-web web-completion-data company-tern dash-functional tern company-shell coffee-mode erc-yt erc-view-log erc-terminal-notifier erc-social-graph erc-image erc-hl-nicks ibuffer-projectile xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help anaconda-mode pythonic pangu-spacing find-by-pinyin-dired chinese-pyim chinese-pyim-basedict ace-pinyin pinyinlib auto-yasnippet yasnippet ac-ispell auto-complete flyspell-correct-ivy flyspell-correct flycheck-pos-tip pos-tip flycheck auto-dictionary wgrep smex ivy-hydra counsel-projectile counsel swiper ivy reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl yapfify smeargle pyvenv pytest pyenv-mode py-isort pip-requirements orgit magit-gitflow live-py-mode hy-mode helm-pydoc helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy evil-magit magit magit-popup git-commit with-editor cython-mode company-statistics company-anaconda company ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
