@@ -359,6 +359,18 @@ you should place your code here."
                   ivy-re-builders-alist '((swiper . ivy--regex-plus)
                                           (t . ivy--regex-fuzzy))))
 
+  ;; company mode
+  (with-eval-after-load 'company
+    (progn
+       (setq company-dabbrev-downcase nil
+             company-dabbrev-ignore-case nil
+             company-show-numbers t
+             company-tooltip-limit 10
+             company-idle-delay 0.1
+             company-echo-delay 0
+             company-minimum-prefix-length 1)
+       (global-company-mode)))
+
   ;; flycheck mode
   (with-eval-after-load 'flycheck
     (set-face-attribute 'flycheck-error nil :foreground "white" :background "red")
