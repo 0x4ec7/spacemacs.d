@@ -41,7 +41,6 @@ values."
      org
      emacs-lisp
      shell-scripts
-     osx
      ivy
      chinese
      git
@@ -63,6 +62,8 @@ values."
                       syntax-checking-enable-tooltips nil)
      (ibuffer :variables
               ibuffer-group-buffers-by 'projects)
+
+     ;; private layers
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -337,14 +338,20 @@ you should place your code here."
   ;; powerline mode
   (setq powerline-default-separator 'arrow)
 
+  ;; subword mode
+  (spacemacs/toggle-camel-case-motion-globally)
+
   (defun enable-monospaced-font ()
     (interactive)
     (if (display-graphic-p)
         (spacemacs//set-monospaced-font "Hack" "Hiragino Sans GB" 12 14)))
 
-  ;; set monospaced font size
+  ;; enable monospaced font
   (when (spacemacs/system-is-mac)
     (enable-monospaced-font))
+
+  ;; disable pangu spacing mode
+  (global-pangu-spacing-mode -1)
 
   ;; ivy mode
   (with-eval-after-load 'ivy
@@ -371,10 +378,16 @@ you should place your code here."
                 :url "https://www.baidu.com/s?wd=%s")
         search-engine-alist)
 
-  )
+  (setq secret-config-file "~/.spacemacs.d/secret-config.el")
+  (if (file-exists-p secret-config-file)
+      (load-file secret-config-file))
 
-;; Do not write anything past this comment. This is where Emacs will
-;; auto-generate custom variable definitions.
+  )
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -383,10 +396,11 @@ you should place your code here."
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (web-mode web-beautify wakatime-mode tagedit sql-indent slim-mode scss-mode sass-mode pug-mode pony-mode org-projectile org-present org-pomodoro alert log4e gntp org-download mmm-mode markdown-toc markdown-mode magit-gh-pulls livid-mode less-css-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js-doc insert-shebang htmlize haml-mode gnuplot github-search github-clone github-browse-file gist gh marshal logito pcache ht gh-md fish-mode engine-mode emmet-mode ein skewer-mode deferred websocket js2-mode simple-httpd company-web web-completion-data company-tern dash-functional tern company-shell coffee-mode erc-yt erc-view-log erc-terminal-notifier erc-social-graph erc-image erc-hl-nicks ibuffer-projectile xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help anaconda-mode pythonic pangu-spacing find-by-pinyin-dired chinese-pyim chinese-pyim-basedict ace-pinyin pinyinlib auto-yasnippet yasnippet ac-ispell auto-complete flyspell-correct-ivy flyspell-correct flycheck-pos-tip pos-tip flycheck auto-dictionary wgrep smex ivy-hydra counsel-projectile counsel swiper ivy reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl yapfify smeargle pyvenv pytest pyenv-mode py-isort pip-requirements orgit magit-gitflow live-py-mode hy-mode helm-pydoc helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy evil-magit magit magit-popup git-commit with-editor cython-mode company-statistics company-anaconda company ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))))
+    (web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern dash-functional tern coffee-mode weibo yapfify xterm-color ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org symon string-inflection sql-indent spaceline smex smeargle shell-pop restart-emacs request rainbow-delimiters pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el password-generator paradox pangu-spacing orgit org-projectile org-present org-pomodoro org-download org-bullets org-brain open-junk-file neotree multi-term move-text mmm-mode material-theme markdown-toc magithub magit-gitflow magit-gh-pulls macrostep lorem-ipsum live-py-mode linum-relative link-hint ivy-purpose ivy-hydra insert-shebang info+ indent-guide ibuffer-projectile hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-make google-translate golden-ratio gnuplot gitignore-mode github-search github-clone gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md fuzzy flyspell-correct-ivy flycheck-pos-tip flycheck-bashate flx-ido fish-mode find-by-pinyin-dired fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help engine-mode elisp-slime-nav editorconfig dumb-jump diff-hl define-word cython-mode counsel-projectile company-statistics company-shell company-anaconda column-enforce-mode clean-aindent-mode chinese-pyim browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-pinyin ace-link ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((((class color) (min-colors 89)) (:foreground "#ffffff" :background "#263238")))))
+ )
+)
