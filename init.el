@@ -373,7 +373,7 @@ you should place your code here."
 
   ;; flycheck mode
   (with-eval-after-load 'flycheck
-    (set-face-attribute 'flycheck-error nil :foreground "white" :background "red")
+    (set-face-attribute 'flycheck-error nil :foreground "red")
     (set-face-attribute 'flycheck-warning nil :foreground "yellow")
     (setq-default flycheck-display-errors-delay 0.1
                   flycheck-highlighting-mode 'lines
