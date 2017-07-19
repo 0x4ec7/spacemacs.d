@@ -62,6 +62,9 @@ values."
                       syntax-checking-enable-tooltips nil)
      (ibuffer :variables
               ibuffer-group-buffers-by 'projects)
+     (mu4e :variables
+           mu4e-enable-notifications t
+           mu4e-enable-mode-line t)
 
      ;; private layers
      )
@@ -390,11 +393,67 @@ you should place your code here."
                 :url "https://www.baidu.com/s?wd=%s")
         search-engine-alist)
 
+  (with-eval-after-load 'mu4e
+    (setq mu4e-maildir "~/.mail"
+          mu4e-update-interval 120
+          mu4e-view-show-images t
+          mu4e-view-show-addresses t
+          mu4e-maildir-shortcuts '(("/0x4ec7/inbox" . ?o) ("/hich.cn/inbox" . ?p) ("/weiche/inbox" . ?w))
+          mu4e-attachment-dir "~/.mail/attachments"
+          mu4e-confirm-quit nil
+          mu4e-contexts
+          `( ,(make-mu4e-context
+               :name "public"
+               :enter-func (lambda () (mu4e-message "Switch to the public context"))
+               :leave-func (lambda () (mu4e-message "Leave the public context"))
+               :match-func (lambda (msg)
+                             (when msg
+                               (mu4e-message-contact-field-matches msg
+                                                                   :to "0x4ec7@gmail.com")))
+               :vars '((mu4e-sent-folder . "/0x4ec7/sent")
+                       (mu4e-drafts-folder . "/0x4ec7/drafts")
+                       (mu4e-trash-folder . "/0x4ec7/trash")
+                       (user-mail-address . "0x4ec7@gmail.com")
+                       (user-full-name . "仇之东")
+                       (mu4e-compose-signature . "BR//Zhidong")))
+             ,(make-mu4e-context
+               :name "private"
+               :enter-func (lambda () (mu4e-message "Switch to the private context"))
+               :leave-func (lambda () (mu4e-message "Leave the private context"))
+               :match-func (lambda (msg)
+                             (when msg
+                               (mu4e-message-contact-field-matches msg
+                                                                   :to "hich.cn@gmail.com")))
+               :vars '((mu4e-sent-folder . "/hich.cn/sent")
+                       (mu4e-drafts-folder . "/hich.cn/drafts")
+                       (mu4e-trash-folder . "/hich.cn/trash")
+                       (user-mail-address . "hich.cn@gmail.com")
+                       (user-full-name . "仇治东")
+                       (mu4e-compose-signature . "BR//Zhidong")))
+             ,(make-mu4e-context
+               :name "work"
+               :enter-func (lambda () (mu4e-message "Switch to the work context"))
+               :leave-func (lambda () (mu4e-message "Leave the work context"))
+               :match-func (lambda (msg)
+                             (when msg
+                               (mu4e-message-contact-field-matches msg
+                                                                   :to "qiuzhidong@weiche.cn")))
+               :vars '((mu4e-sent-folder . "/weiche/sent")
+                       (mu4e-drafts-folder . "/weiche/drafts")
+                       (mu4e-trash-folder . "/weiche/trash")
+                       (user-mail-address . "qiuzhidong@weiche.cn")
+                       (user-full-name . "仇治东")
+                       (mu4e-compose-signature . "BR//Zhidong"))))))
+
+  (with-eval-after-load 'mu4e-alert
+    (mu4e-alert-set-default-style 'notifier))
+
   (setq secret-config-file "~/.spacemacs.d/secret-config.el")
   (if (file-exists-p secret-config-file)
       (load-file secret-config-file))
 
   )
+
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
 This is an auto-generated function, do not modify its content directly, use
