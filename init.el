@@ -395,6 +395,7 @@ you should place your code here."
 
   (with-eval-after-load 'mu4e
     (setq mu4e-maildir "~/.mail"
+          mu4e-get-mail-command "mbsync -a"
           mu4e-update-interval 120
           mu4e-view-show-images t
           mu4e-view-show-addresses t
