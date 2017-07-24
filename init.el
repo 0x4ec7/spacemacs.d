@@ -37,8 +37,9 @@ values."
      (python :variables
              python-test-runner 'pytest)
      sql
+     (org :variables
+          org-want-todo-bindings t)
      markdown
-     org
      emacs-lisp
      shell-scripts
      ivy
@@ -50,7 +51,10 @@ values."
                       auto-completion-enable-sort-by-usage t
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-tab-key-behavior 'cycle
-                      auto-completion-private-snippets-directory "~/.spacemacs.d/snippets/")
+                      auto-completion-private-snippets-directory "~/.spacemacs.d/snippets/"
+                      :disabled-for
+                      org
+                      markdown)
      (shell :variables
             shell-default-shell 'term
             shell-default-term-shell "/bin/zsh"
@@ -414,8 +418,24 @@ you should place your code here."
           mu4e-confirm-quit nil
           message-send-mail-function 'smtpmail-send-it
           smtpmail-auth-credentials "~/.authinfo.gpg"
+          smtpmail-debug-info t
           mu4e-contexts
           `( ,(make-mu4e-context
+               :name "work"
+               :match-func (lambda (msg)
+                             (when msg
+                               (mu4e-message-contact-field-matches msg
+                                                                   :to "qiuzhidong@weiche.cn")))
+               :vars '((mu4e-sent-folder . "/weiche/sent")
+                       (mu4e-drafts-folder . "/weiche/drafts")
+                       (mu4e-trash-folder . "/weiche/trash")
+                       (user-mail-address . "qiuzhidong@weiche.cn")
+                       (user-full-name . "微车-仇治东")
+                       (mu4e-compose-signature . "BR//Zhidong")
+                       (smtpmail-smtp-server . "smtp.exmail.qq.com")
+                       (smtpmail-smtp-service . 465)
+                       (smtpmail-stream-type . ssl)))
+             ,(make-mu4e-context
                :name "public"
                :match-func (lambda (msg)
                              (when msg
@@ -448,25 +468,35 @@ you should place your code here."
                        (smtpmail-smtp-service . 587)
                        (starttls-use-gnutls . t)
                        (smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil)))
-                       (smtpmail-stream-type . starttls)))
-             ,(make-mu4e-context
-               :name "work"
-               :match-func (lambda (msg)
-                             (when msg
-                               (mu4e-message-contact-field-matches msg
-                                                                   :to "qiuzhidong@weiche.cn")))
-               :vars '((mu4e-sent-folder . "/weiche/sent")
-                       (mu4e-drafts-folder . "/weiche/drafts")
-                       (mu4e-trash-folder . "/weiche/trash")
-                       (user-mail-address . "qiuzhidong@weiche.cn")
-                       (user-full-name . "微车-仇治东")
-                       (mu4e-c:ompose-signature . "BR//Zhidong")
-                       (smtpmail-smtp-server . "smtp.exmail.qq.com")
-                       (smtpmail-smtp-service . 465)
-                       (smtpmail-stream-type . ssl))))))
+                       (smtpmail-stream-type . starttls))))))
 
   (with-eval-after-load 'mu4e-alert
     (mu4e-alert-set-default-style 'notifier))
+
+  (with-eval-after-load 'org
+    (setq org-todo-keywords
+          '((sequence "TODO(t)" "STARTED(s)" "|" "DONE(d!/!)" "CANCELLED(c@/!)"))
+          org-directory "~/Dropbox/Documents/gtd/"
+          org-agenda-todo-file (concat org-directory "todo.org")
+          org-agenda-done-file (concat org-directory "done.org")
+          org-agenda-cancelled-file (concat org-directory "cancelled.org")
+          org-agenda-note-file (concat org-directory "notes.org")
+          org-agenda-snippet-file (concat org-directory "snippets.org")
+          org-default-notes-file org-agenda-todo-file
+          org-agenda-files (list org-directory)
+          org-capture-templates
+          '(("t" "Task" entry (file+headline org-agenda-todo-file "Tasks") "** TODO %?\n %i\n %a")
+            ("b" "Book" entry (file+headline org-agenda-todo-file "Books") "** TODO %?\n %i\n %a")
+            ("c" "Calendar" entry (file+headline org-agenda-todo-file "Calendar") "** TODO %?\n %i\n %a")
+            ("p" "Project" entry (file+headline org-agenda-todo-file "Projects") "** TODO %?\n %i\n %a")
+            ("n" "Note" entry (file+headline org-agenda-note-file "Notes") "** TODO %?\n %i\n %a")
+            ("s" "Snippet" entry (file+headline org-agenda-snippet-file "Snippets") "** TODO %?\n %i\n %a"))
+          org-refile-use-outline-path 'file
+          org-outline-path-complete-in-steps nil
+          org-refile-targets '((nil :maxlevel . 2)
+                               (org-agenda-todo-file :maxlevel . 2)
+                               (org-agenda-cancelled-file :maxlevel . 2)
+                               (org-agenda-done-file :maxlevel . 2))))
 
   (setq secret-config-file "~/.spacemacs.d/secret-config.el")
   (if (file-exists-p secret-config-file)
