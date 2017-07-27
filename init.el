@@ -79,6 +79,7 @@ values."
              :port "6667"
              :ssl t
              :nick "0x4ec7")))
+     spacemacs-layouts
 
      ;; private layers
      )
@@ -211,7 +212,7 @@ values."
    dotspacemacs-display-default-layout nil
    ;; If non nil then the last auto saved layouts are resume automatically upon
    ;; start. (default nil)
-   dotspacemacs-auto-resume-layouts nil
+   dotspacemacs-auto-resume-layouts t
    ;; Size (in MB) above which spacemacs will prompt to open the large file
    ;; literally to avoid performance issues. Opening a file literally means that
    ;; no major mode or minor modes are active. (default is 1)
@@ -468,7 +469,10 @@ you should place your code here."
                        (smtpmail-smtp-service . 587)
                        (starttls-use-gnutls . t)
                        (smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil)))
-                       (smtpmail-stream-type . starttls))))))
+                       (smtpmail-stream-type . starttls)))))
+    (if (display-graphic-p)
+        (when (fboundp 'imagemagick-register-types)
+          (imagemagick-register-types))))
 
   (with-eval-after-load 'mu4e-alert
     (mu4e-alert-set-default-style 'notifier))
