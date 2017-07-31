@@ -80,6 +80,7 @@ values."
              :ssl t
              :nick "0x4ec7")))
      spacemacs-layouts
+     spacemacs-evil
 
      ;; private layers
      )
@@ -370,6 +371,10 @@ you should place your code here."
 
   ;; disable pangu spacing mode
   (global-pangu-spacing-mode -1)
+
+  ;; evil mode
+  (with-eval-after-load 'evil
+    (global-evil-mc-mode))
 
   ;; ivy mode
   (with-eval-after-load 'ivy
