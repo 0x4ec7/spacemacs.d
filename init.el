@@ -498,6 +498,7 @@ you should place your code here."
             ("b" "Book" entry (file+headline org-agenda-todo-file "Books") "** TODO %?\n %i\n %a")
             ("c" "Calendar" entry (file+headline org-agenda-todo-file "Calendar") "** TODO %?\n %i\n %a")
             ("p" "Project" entry (file+headline org-agenda-todo-file "Projects") "** TODO %?\n %i\n %a")
+            ("m" "Moses" entry (file+headline org-agenda-todo-file "Moses") "** TODO %?\n %i\n %a")
             ("n" "Note" entry (file+headline org-agenda-note-file "Notes") "** TODO %?\n %i\n %a")
             ("s" "Snippet" entry (file+headline org-agenda-snippet-file "Snippets") "** TODO %?\n %i\n %a"))
           org-refile-use-outline-path 'file
