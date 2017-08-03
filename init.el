@@ -76,7 +76,7 @@ values."
              :ssl t
              :nick "x4ec7")
             ("irc.gitter.im"
-             :port "6667"
+             :port "6697"
              :ssl t
              :nick "0x4ec7")))
      spacemacs-layouts
