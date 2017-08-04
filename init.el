@@ -81,6 +81,7 @@ values."
              :nick "0x4ec7")))
      spacemacs-layouts
      spacemacs-evil
+     imenu-list
 
      ;; private layers
      )
