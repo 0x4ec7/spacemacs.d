@@ -29,6 +29,7 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     yaml
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -169,7 +170,7 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Hack"
-                               :size 12
+                               :size 14
                                :weight normal
                                :width normal
                                :powerline-scale 1.3)
@@ -361,10 +362,14 @@ you should place your code here."
   ;; subword mode
   (spacemacs/toggle-camel-case-motion-globally)
 
+  ;; buffer-file-coding-system
+  (setq-default buffer-file-coding-system 'utf-8-unix)
+  (setq-default save-buffer-coding-system 'utf-8-unix)
+
   (defun enable-monospaced-font ()
     (interactive)
     (if (display-graphic-p)
-        (spacemacs//set-monospaced-font "Hack" "Hiragino Sans GB" 12 14)))
+        (spacemacs//set-monospaced-font "Hack" "Hiragino Sans GB" 13 14)))
 
   ;; enable monospaced font
   (when (spacemacs/system-is-mac)
@@ -405,14 +410,9 @@ you should place your code here."
 
   ;; python mode
   (with-eval-after-load 'python
-    (setq whitespace-line-column 79
+    (setq whitespace-line-column 119
           whitespace-style '(face lines-tail))
     (add-hook 'python-mode-hook 'whitespace-mode))
-
-  ;; add baidu to search-engine-alist
-  (push '(baidu :name "Baidu"
-                :url "https://www.baidu.com/s?wd=%s")
-        search-engine-alist)
 
   (with-eval-after-load 'mu4e
     (setq mu4e-maildir "~/.mail"
@@ -420,7 +420,7 @@ you should place your code here."
           mu4e-update-interval 180
           mu4e-view-show-images t
           mu4e-view-show-addresses t
-          mu4e-maildir-shortcuts '(("/0x4ec7/inbox" . ?p) ("/hich.cn/inbox" . ?m) ("/weiche/inbox" . ?w))
+          mu4e-maildir-shortcuts '(("/0x4ec7/inbox" . ?p) ("/hich.cn/inbox" . ?m))
           mu4e-attachment-dir "~/.mail/attachments"
           mu4e-confirm-quit nil
           message-send-mail-function 'smtpmail-send-it
@@ -428,21 +428,6 @@ you should place your code here."
           smtpmail-debug-info t
           mu4e-contexts
           `( ,(make-mu4e-context
-               :name "work"
-               :match-func (lambda (msg)
-                             (when msg
-                               (mu4e-message-contact-field-matches msg
-                                                                   :to "qiuzhidong@weiche.cn")))
-               :vars '((mu4e-sent-folder . "/weiche/sent")
-                       (mu4e-drafts-folder . "/weiche/drafts")
-                       (mu4e-trash-folder . "/weiche/trash")
-                       (user-mail-address . "qiuzhidong@weiche.cn")
-                       (user-full-name . "微车-仇治东")
-                       (mu4e-compose-signature . "BR//Zhidong")
-                       (smtpmail-smtp-server . "smtp.exmail.qq.com")
-                       (smtpmail-smtp-service . 465)
-                       (smtpmail-stream-type . ssl)))
-             ,(make-mu4e-context
                :name "public"
                :match-func (lambda (msg)
                              (when msg
@@ -512,6 +497,11 @@ you should place your code here."
   (setq secret-config-file "~/.spacemacs.d/secret-config.el")
   (if (file-exists-p secret-config-file)
       (load-file secret-config-file))
+
+  (when (spacemacs/system-is-linux)
+    (progn
+      (setq-default shell-default-term-shell "/bin/bash")
+      (setq-default shell-pop-term-shell "/bin/bash")))
 
   )
 
