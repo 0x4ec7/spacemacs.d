@@ -44,7 +44,8 @@ values."
      emacs-lisp
      shell-scripts
      ivy
-     chinese
+     (chinese :variables
+              chinese-enable-fcitx t)
      git
      github
      search-engine
@@ -365,6 +366,22 @@ you should place your code here."
   ;; buffer-file-coding-system
   (setq-default buffer-file-coding-system 'utf-8-unix)
   (setq-default save-buffer-coding-system 'utf-8-unix)
+
+  ;; chinese input method
+  ;; https://github.com/tumashu/pyim-greatdict/raw/master/pyim-greatdict.pyim.gz
+  (with-eval-after-load 'pyim
+    (progn
+      (defvar greatdict "~/.pyim/pyim-greatdict.pyim")
+      (setq default-input-method "pyim")
+      (setq pyim-use-tooltip 'popup)
+      (setq pyim-punctuation-dict nil)
+      (setq pyim-isearch-enable-pinyin-search t)
+      (setq pyim-isearch-mode t)
+      (if (file-exists-p greatdict)
+          (setq pyim-dicts `((:name "pyim-greatdict" :file ,greatdict)))
+        (progn
+          (require 'pyim-basedict)
+          (pyim-basedict-enable)))))
 
   (defun enable-monospaced-font ()
     (interactive)
