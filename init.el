@@ -422,6 +422,7 @@ you should place your code here."
     (set-face-attribute 'flycheck-warning nil :foreground "yellow")
     (setq-default flycheck-display-errors-delay 0.1
                   flycheck-highlighting-mode 'lines
+                  flycheck-flake8-maximum-line-length 119
                   flycheck-check-syntax-automatically '(mode-enabled save)))
 
   ;; python mode
@@ -433,7 +434,7 @@ you should place your code here."
   (with-eval-after-load 'mu4e
     (setq mu4e-maildir "~/.mail"
           mu4e-get-mail-command "mbsync -a"
-          mu4e-update-interval 180
+          mu4e-update-interval 120
           mu4e-view-show-images t
           mu4e-view-show-addresses t
           mu4e-maildir-shortcuts '(("/0x4ec7/inbox" . ?p) ("/hich.cn/inbox" . ?m))
@@ -509,10 +510,6 @@ you should place your code here."
                                (org-agenda-todo-file :maxlevel . 2)
                                (org-agenda-cancelled-file :maxlevel . 2)
                                (org-agenda-done-file :maxlevel . 2))))
-
-  (setq secret-config-file "~/.spacemacs.d/secret-config.el")
-  (if (file-exists-p secret-config-file)
-      (load-file secret-config-file))
 
   (when (spacemacs/system-is-linux)
     (progn
