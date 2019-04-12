@@ -522,6 +522,10 @@ you should place your code here."
       (setq-default shell-default-term-shell "/bin/bash")
       (setq-default shell-pop-term-shell "/bin/bash")))
 
+  ;; counsel
+  (with-eval-after-load 'counsel
+    (setq-default counsel-find-file-ignore-regexp "^\.#"))
+
   )
 
 (defun dotspacemacs/emacs-custom-settings ()
