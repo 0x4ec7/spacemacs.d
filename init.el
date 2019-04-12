@@ -526,6 +526,12 @@ you should place your code here."
   (with-eval-after-load 'counsel
     (setq-default counsel-find-file-ignore-regexp "^\.#"))
 
+  ;; proxies
+  (setq url-proxy-services
+        '(("no_proxy" . "^\\(localhost\\|10.*\\)")
+          ("http" . "127.0.0.1:8123")
+          ("https" . "127.0.0.1:8123")))
+
   )
 
 (defun dotspacemacs/emacs-custom-settings ()
