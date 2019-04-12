@@ -359,7 +359,13 @@ you should place your code here."
   (setq linum-format "%3d ")
 
   ;; powerline mode
-  (setq powerline-default-separator 'arrow)
+  (with-eval-after-load 'powerline
+    (progn
+      (display-time-mode)
+      (setq powerline-default-separator 'arrow
+            display-time-format "%Y-%m-%d %H:%M"
+            display-time-interval 1
+            display-time-load-average nil)))
 
   ;; subword mode
   (spacemacs/toggle-camel-case-motion-globally)
