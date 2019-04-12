@@ -174,7 +174,7 @@ values."
                                :size 14
                                :weight normal
                                :width normal
-                               :powerline-scale 1.3)
+                               :powerline-scale 1.1)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
@@ -386,11 +386,10 @@ you should place your code here."
   (defun enable-monospaced-font ()
     (interactive)
     (if (display-graphic-p)
-        (spacemacs//set-monospaced-font "Hack" "Hiragino Sans GB" 13 14)))
+        (spacemacs//set-monospaced-font "Hack" "Hiragino Sans GB" 14 16)))
 
   ;; enable monospaced font
-  (when (spacemacs/system-is-mac)
-    (enable-monospaced-font))
+  (enable-monospaced-font)
 
   ;; disable pangu spacing mode
   (global-pangu-spacing-mode -1)
