@@ -45,7 +45,8 @@ values."
      shell-scripts
      ivy
      (chinese :variables
-              chinese-enable-fcitx t)
+              chinese-enable-fcitx t
+              chinese-enable-youdao-dict t)
      git
      github
      search-engine
@@ -376,7 +377,6 @@ you should place your code here."
       (setq pyim-use-tooltip 'popup)
       (setq pyim-punctuation-dict nil)
       (setq pyim-isearch-enable-pinyin-search t)
-      (setq pyim-isearch-mode t)
       (if (file-exists-p greatdict)
           (setq pyim-dicts `((:name "pyim-greatdict" :file ,greatdict)))
         (progn
