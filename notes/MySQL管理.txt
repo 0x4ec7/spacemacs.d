@@ -13,5 +13,5 @@
 `GRANT SELECT ON <database>.* TO '<username>'@'%'`
 
 
-## 取消授权
+## 撤销授权
 `REVOKE ALL PRIVILEGES ON <database>.* FROM '<username>'@'%'`
