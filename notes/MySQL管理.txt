@@ -1,0 +1,17 @@
+## 创建用户
+`CREATE USER '<username>'@'%' IDENTIFIED BY '<password>'`
+
+
+## 查看权限
+`SHOW GRANTS FOR <username>`
+
+
+## 授权
+为用户授予指定database的所有权限
+`GRANT ALL PRIVILEGES ON <database>.* TO '<username>'@'%'`
+为用户授予指定database的只读权限
+`GRANT SELECT ON <database>.* TO '<username>'@'%'`
+
+
+## 取消授权
+`REVOKE ALL PRIVILEGES ON <database>.* FROM '<username>'@'%'`
